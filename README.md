@@ -27,6 +27,9 @@ VOLT is a premium, high-end e-commerce experience designed for the intersection 
 ### 🛒 Cart & Checkout
 ![Volt Cart](screenshots/cart.png)
 
+### 🏠 Home login
+![Volt login](screenshots/login.png)
+
 ### 🔐 Admin Dashboard
 ![Volt Admin](screenshots/admin.png)
 
