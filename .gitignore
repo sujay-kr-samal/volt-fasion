@@ -1,0 +1,13 @@
+node_modules/
+.DS_Store
+*.log
+.env
+.idea/
+.vscode/
+dist/
+build/
+backend/database/*.json
+!backend/database/products.json
+!backend/database/users.json
+!backend/database/orders.json
+!backend/database/offers.json

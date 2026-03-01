@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOLT — Shop All</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="shop.css">
+</head>
+
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    <div id="page-overlay"></div>
+
+    <!-- TOAST -->
+    <div id="toast">
+        <div class="toast-dot"></div>
+        <div class="toast-text">Added to cart!</div>
+    </div>
+
+    <!-- QUICK VIEW MODAL -->
+    <div id="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-box" id="modal-box">
+            <div class="modal-image" id="modal-img">
+                <div class="modal-img-bg" id="modal-bg">
+                    <div class="modal-img-letter" id="modal-letter">V</div>
+                </div>
+            </div>
+            <div class="modal-content" style="position:relative">
+                <button class="modal-close" onclick="closeModalDirect()">✕</button>
+                <div class="modal-brand">VOLT STUDIO</div>
+                <div class="modal-name" id="modal-name">SHADOW COAT</div>
+                <div class="modal-price-row">
+                    <div class="modal-price" id="modal-price">$480</div>
+                    <div class="modal-original" id="modal-orig"></div>
+                    <div class="modal-off" id="modal-off"></div>
+                </div>
+                <div class="modal-section-label">Select Size</div>
+                <div class="modal-sizes" id="modal-sizes"></div>
+                <div class="modal-section-label">Color</div>
+                <div class="modal-colors" id="modal-colors"></div>
+                <button class="modal-add" onclick="addToCart()">Add to Cart</button>
+                <button class="modal-wishlist">♡ &nbsp; Add to Wishlist</button>
+                <div class="modal-desc" id="modal-desc">Premium quality garment crafted for those who define culture.
+                    Limited drop — once it's gone, it's gone.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN PROMPT -->
+    <div id="login-prompt">
+        <div class="prompt-icon">🔒</div>
+        <div class="prompt-body">
+            <div class="prompt-title">Sign in to add to cart</div>
+            <div class="prompt-sub">Create a free account to shop, save wishlists & get early drop access.</div>
+            <div class="prompt-btns">
+                <a href="auth.html" class="prompt-btn prompt-btn-primary">Sign In</a>
+                <a href="auth.html" class="prompt-btn prompt-btn-ghost">Register</a>
+            </div>
+        </div>
+        <button class="prompt-close"
+            onclick="document.getElementById('login-prompt').classList.remove('show')">✕</button>
+    </div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="index.html" class="nav-logo">VOLT</a>
+        <div class="nav-center">
+            <a href="index.html" style="text-decoration:none;color:inherit">Home</a>
+            <span class="sep">/</span>
+            <span class="current">Shop All</span>
+        </div>
+        <div class="nav-right">
+            <div class="nav-search">🔍 &nbsp; Search</div>
+
+            <!-- LOGGED OUT: show sign in + register -->
+            <div class="nav-auth-group" id="nav-auth-group">
+                <a href="auth.html" class="nav-btn-signin">Sign In</a>
+                <a href="auth.html" class="nav-btn-register">Register</a>
+            </div>
+
+            <!-- LOGGED IN: show avatar + cart -->
+            <div class="nav-user" id="nav-user">
+                <span class="nav-user-name" id="nav-user-name">Hey, Alex</span>
+                <div class="nav-avatar" id="nav-avatar">A
+                    <div class="user-dropdown">
+                        <a href="#">My Orders</a>
+                        <a href="#">Wishlist</a>
+                        <a href="#">Account Settings</a>
+                        <button onclick="logOut()">Log Out →</button>
+                    </div>
+                </div>
+            </div>
+
+            <a href="cart.html" style="text-decoration:none;color:inherit">
+                <div class="nav-cart" id="nav-cart">🛒<div class="cart-count" id="cart-count">0</div>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO BANNER -->
+    <div class="shop-hero">
+        <div class="shop-hero-bg"></div>
+        <div class="shop-hero-giant">SHOP</div>
+        <div class="shop-hero-content">
+            <div class="shop-hero-tag">Drop 01 · 2026</div>
+            <h1 class="shop-hero-title">ALL <em>PRODUCTS</em></h1>
+        </div>
+    </div>
+
+    <!-- FILTERS BAR -->
+    <div class="filters-bar">
+        <div class="filter-pills">
+            <button class="pill active" onclick="filterCategory('all',this)">All</button>
+            <button class="pill" onclick="filterCategory('outerwear',this)">Outerwear</button>
+            <button class="pill" onclick="filterCategory('jackets',this)">Jackets</button>
+            <button class="pill" onclick="filterCategory('hoodies',this)">Hoodies</button>
+            <button class="pill" onclick="filterCategory('tees',this)">T-Shirts</button>
+            <button class="pill" onclick="filterCategory('bottoms',this)">Bottoms</button>
+            <button class="pill" onclick="filterCategory('accessories',this)">Accessories</button>
+            <button class="pill" onclick="filterCategory('new',this)">New In</button>
+            <button class="pill" onclick="filterCategory('sale',this)">Sale</button>
+        </div>
+        <div class="filter-right">
+            <div class="results-count" id="results-count">24 Products</div>
+            <select class="sort-select" onchange="sortProducts(this.value)">
+                <option value="new">Newest</option>
+                <option value="low">Price: Low</option>
+                <option value="high">Price: High</option>
+                <option value="popular">Popular</option>
+            </select>
+            <div class="view-toggle">
+                <button class="view-btn active" onclick="setView(4,this)" title="4 columns">⊞</button>
+                <button class="view-btn" onclick="setView(2,this)" title="2 columns">⊟</button>
+                <button class="view-btn" onclick="setView('list',this)" title="List">☰</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="shop-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="filter-section reveal">
+                <div class="filter-section-title">Categories <button onclick="">—</button></div>
+                <div class="filter-item checked" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">All Items</div>
+                    <div class="filter-count">24</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">Outerwear</div>
+                    <div class="filter-count">6</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">Jackets</div>
+                    <div class="filter-count">4</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">Hoodies</div>
+                    <div class="filter-count">3</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">T-Shirts</div>
+                    <div class="filter-count">5</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">Bottoms</div>
+                    <div class="filter-count">4</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">Accessories</div>
+                    <div class="filter-count">2</div>
+                </div>
+            </div>
+
+            <div class="filter-section reveal">
+                <div class="filter-section-title">Price Range</div>
+                <div class="price-range">
+                    <div class="range-track">
+                        <div class="range-fill"></div>
+                    </div>
+                    <div class="range-labels"><span>$0</span><span>$800</span></div>
+                </div>
+            </div>
+
+            <div class="filter-section reveal">
+                <div class="filter-section-title">Color</div>
+                <div class="color-swatches">
+                    <div class="swatch active" style="background:#050505;border:1px solid rgba(245,240,232,.2)"
+                        title="Black"></div>
+                    <div class="swatch" style="background:#f5f0e8" title="Cream"
+                        onclick="this.classList.toggle('active')"></div>
+                    <div class="swatch" style="background:#ff3c00" title="Volt Orange"
+                        onclick="this.classList.toggle('active')"></div>
+                    <div class="swatch" style="background:#1a3a5c" title="Midnight Blue"
+                        onclick="this.classList.toggle('active')"></div>
+                    <div class="swatch" style="background:#2d1a0a" title="Espresso"
+                        onclick="this.classList.toggle('active')"></div>
+                    <div class="swatch" style="background:#1a2d1a" title="Forest"
+                        onclick="this.classList.toggle('active')"></div>
+                    <div class="swatch" style="background:#3d003d" title="Deep Violet"
+                        onclick="this.classList.toggle('active')"></div>
+                    <div class="swatch" style="background:#1a1a1a" title="Charcoal"
+                        onclick="this.classList.toggle('active')"></div>
+                </div>
+            </div>
+
+            <div class="filter-section reveal">
+                <div class="filter-section-title">Size</div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">XS</div>
+                    <div class="filter-count">14</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">S</div>
+                    <div class="filter-count">22</div>
+                </div>
+                <div class="filter-item checked" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">M</div>
+                    <div class="filter-count">24</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">L</div>
+                    <div class="filter-count">18</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">XL</div>
+                    <div class="filter-count">10</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">XXL</div>
+                    <div class="filter-count">6</div>
+                </div>
+            </div>
+
+            <div class="filter-section reveal">
+                <div class="filter-section-title">Availability</div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">In Stock</div>
+                    <div class="filter-count">20</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">Pre-order</div>
+                    <div class="filter-count">3</div>
+                </div>
+                <div class="filter-item" onclick="toggleFilter(this)">
+                    <div class="filter-check"></div>
+                    <div class="filter-label">Sold Out</div>
+                    <div class="filter-count">1</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- PRODUCTS -->
+        <div class="products-section">
+            <div class="products-grid" id="products-grid">
+                <!-- Cards injected by JS -->
+            </div>
+            <div class="load-more-section reveal">
+                <button class="load-more-btn" onclick="loadMore()"><span>Load More Products</span></button>
+                <div class="load-count" id="load-count">Showing 12 of 24 products</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="shop.js"></script>
+</body>
+
+</html>

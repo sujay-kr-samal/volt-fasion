@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOLT — Future Fashion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- CURSOR -->
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- LOADER -->
+    <div id="loader">
+        <div class="loader-text">
+            <span style="animation-delay:0s">V</span><span style="animation-delay:0.05s">O</span><span
+                style="animation-delay:0.1s">L</span><span style="animation-delay:0.15s">T</span>
+        </div>
+        <div class="loader-bar">
+            <div class="loader-fill"></div>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="index.html" class="nav-logo">VOLT</a>
+        <div class="nav-links">
+            <a href="#collection">Collection</a>
+            <a href="#featured">Featured</a>
+            <a href="#about">About</a>
+            <a href="shop.html" style="color:var(--accent)">Shop All</a>
+        </div>
+        <div class="nav-right">
+            <!-- LOGGED OUT -->
+            <div class="nav-auth-group" id="nav-auth-group">
+                <a href="auth.html" class="nav-btn-signin">Sign In</a>
+                <a href="auth.html" class="nav-btn-register">Register</a>
+            </div>
+            <!-- LOGGED IN -->
+            <div class="nav-user" id="nav-user" style="display:none">
+                <a href="cart.html" style="text-decoration:none;color:inherit;margin-right:15px;position:relative"
+                    id="nav-cart">
+                    🛒<span id="cart-count"
+                        style="position:absolute;top:-8px;right:-8px;background:var(--accent);color:white;font-size:8px;padding:2px 4px;border-radius:50%;font-family:'Space Mono'">0</span>
+                </a>
+                <span class="nav-user-name" id="nav-user-name"></span>
+                <div class="nav-avatar" id="nav-avatar">
+                    <div class="user-dropdown">
+                        <a href="cart.html">View Cart</a>
+                        <a href="#">My Orders</a>
+                        <a href="#">Wishlist</a>
+                        <a href="#">Account Settings</a>
+                        <button onclick="logOut()">Log Out →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+        <div class="hero-bg"></div>
+        <div class="noise"></div>
+        <div class="hero-giant-text">VOLT</div>
+        <div class="hero-content">
+            <div class="hero-tag">New Collection 2026</div>
+            <h1 class="hero-h1 glitch" data-text="WEAR THE FUTURE">WEAR THE <em>FUTURE</em></h1>
+            <p class="hero-sub">Bold silhouettes. Raw materials. Engineered for those who define culture, not follow it.
+            </p>
+            <div class="hero-cta">
+                <a href="shop.html" class="btn-primary"><span>Shop Now</span></a>
+                <a href="#about" class="btn-outline">Our Story</a>
+            </div>
+        </div>
+        <div class="hero-image-zone">
+            <div class="hero-card">
+                <div class="hero-card-inner">V</div>
+                <div class="hero-card-price">$480</div>
+                <div class="hero-card-label">
+                    <h3>SHADOW COAT</h3>
+                    <p>Drop 01 — Limited</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+        <div class="marquee">
+            <div class="marquee-item"><span>VOLT STUDIO</span><span class="dot"></span><span>FUTURE FASHION</span><span
+                    class="dot"></span><span>DROP 01</span><span class="dot"></span><span>LIMITED EDITION</span><span
+                    class="dot"></span><span>ENGINEERED CULTURE</span><span class="dot"></span><span>VOLT
+                    STUDIO</span><span class="dot"></span><span>FUTURE FASHION</span><span class="dot"></span><span>DROP
+                    01</span><span class="dot"></span><span>LIMITED EDITION</span><span
+                    class="dot"></span><span>ENGINEERED CULTURE</span><span class="dot"></span><span>VOLT
+                    STUDIO</span><span class="dot"></span><span>FUTURE FASHION</span><span class="dot"></span><span>DROP
+                    01</span><span class="dot"></span><span>LIMITED EDITION</span><span
+                    class="dot"></span><span>ENGINEERED CULTURE</span><span class="dot"></span></div>
+        </div>
+    </div>
+
+    <!-- COLLECTION -->
+    <section id="collection">
+        <div class="collection-header">
+            <div>
+                <div class="section-tag reveal">Drop 01</div>
+                <h2 class="collection-title reveal reveal-delay-1">THE COLLECTION</h2>
+            </div>
+            <a href="#" class="btn-outline reveal" style="border-color:rgba(245,240,232,0.3)">View All →</a>
+        </div>
+        <div class="grid-products reveal reveal-delay-2">
+            <div class="product-card">
+                <div class="product-card-bg pc1"></div>
+                <div class="product-letter">V</div>
+                <div class="product-badge">New</div>
+                <div class="product-num">001</div>
+                <div class="product-info">
+                    <h3>SHADOW COAT</h3>
+                    <div class="price">$480</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-bg pc2"></div>
+                <div class="product-letter">O</div>
+                <div class="product-badge">Limited</div>
+                <div class="product-num">002</div>
+                <div class="product-info">
+                    <h3>VOID JACKET</h3>
+                    <div class="price">$320</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-bg pc3"></div>
+                <div class="product-letter">L</div>
+                <div class="product-num">003</div>
+                <div class="product-info">
+                    <h3>NEON RIG</h3>
+                    <div class="price">$240</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-bg pc4"></div>
+                <div class="product-letter">T</div>
+                <div class="product-badge">Sold Out</div>
+                <div class="product-num">004</div>
+                <div class="product-info">
+                    <h3>GHOST HOODIE</h3>
+                    <div class="price">$180</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-bg pc5"></div>
+                <div class="product-letter">V</div>
+                <div class="product-badge">Pre-order</div>
+                <div class="product-num">005</div>
+                <div class="product-info">
+                    <h3>SIGNAL SHIRT</h3>
+                    <div class="price">$120</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-card-bg pc6"></div>
+                <div class="product-letter">T</div>
+                <div class="product-num">006</div>
+                <div class="product-info">
+                    <h3>CIRCUIT PANTS</h3>
+                    <div class="price">$280</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STRIP -->
+    <div class="strip">
+        <div class="strip-item">
+            <div class="strip-item-bg si1"></div>
+            <div class="strip-item-icon">V</div>
+            <div class="strip-item-label">OUTERWEAR</div>
+        </div>
+        <div class="strip-item">
+            <div class="strip-item-bg si2"></div>
+            <div class="strip-item-icon">O</div>
+            <div class="strip-item-label">JACKETS</div>
+        </div>
+        <div class="strip-item">
+            <div class="strip-item-bg si3"></div>
+            <div class="strip-item-icon">L</div>
+            <div class="strip-item-label">TEES</div>
+        </div>
+        <div class="strip-item">
+            <div class="strip-item-bg si4"></div>
+            <div class="strip-item-icon">T</div>
+            <div class="strip-item-label">ACCESSORIES</div>
+        </div>
+        <div class="strip-item">
+            <div class="strip-item-bg si5"></div>
+            <div class="strip-item-icon">V</div>
+            <div class="strip-item-label">BOTTOMS</div>
+        </div>
+    </div>
+
+    <!-- FEATURED -->
+    <section id="featured">
+        <div class="section-tag reveal">Editor's Pick</div>
+        <div class="featured-grid">
+            <div class="featured-visual reveal reveal-delay-1">
+                <div class="featured-visual-inner">
+                    <div class="featured-big-letter">V</div>
+                </div>
+                <div class="featured-tag-float">DROP 01</div>
+            </div>
+            <div class="featured-content reveal reveal-delay-2">
+                <h2>THE <em>SHADOW</em> COAT</h2>
+                <p>Designed for the intersection of streetwear and high fashion. Heavyweight Japanese wool blend with
+                    custom VOLT hardware. Each piece is numbered and signed.</p>
+                <div class="featured-specs">
+                    <div class="spec-item">
+                        <div class="spec-label">Material</div>
+                        <div class="spec-val">JP Wool Blend</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Edition</div>
+                        <div class="spec-val">1 of 200</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Colorway</div>
+                        <div class="spec-val">Midnight Ore</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Price</div>
+                        <div class="spec-val" style="color:var(--accent)">$480</div>
+                    </div>
+                </div>
+                <a href="#" class="btn-dark"><span>Add to Cart</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section id="stats">
+        <div class="stats-grid">
+            <div class="stat-item reveal">
+                <div class="stat-num counter" data-target="12">0</div>
+                <div class="stat-label">Drops Released</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-1">
+                <div class="stat-num counter" data-target="8500">0</div>
+                <div class="stat-label">Pieces Sold</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-2">
+                <div class="stat-num counter" data-target="40">0</div>
+                <div class="stat-label">Countries Reached</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-3">
+                <div class="stat-num counter" data-target="200">0</div>
+                <div class="stat-label">Limited Per Drop</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="about-grid">
+            <div class="about-text">
+                <div class="section-tag reveal">Our Story</div>
+                <h2 class="reveal reveal-delay-1">BORN FROM<br>THE EDGE</h2>
+                <p class="reveal reveal-delay-2">VOLT started in a small studio with one obsession: creating garments
+                    that don't just look different, but feel different. Every stitch is intentional. Every drop is an
+                    event.</p>
+                <br>
+                <p class="reveal reveal-delay-3" style="color:rgba(245,240,232,0.35)">We work with a network of
+                    independent craftspeople across Japan, Italy, and South Korea. Small batches. Relentless quality. No
+                    compromise.</p>
+            </div>
+            <div class="about-visual reveal reveal-delay-2">
+                <div class="about-box">
+                    <div class="about-box-inner">V</div>
+                </div>
+                <div class="about-float">
+                    <div class="big">06</div>
+                    <div class="small">years<br>designing</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
+        <div class="section-tag reveal">Reviews</div>
+        <h2 class="reveal reveal-delay-1"
+            style="font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6vw,80px);line-height:1;margin-top:16px;">
+            WHAT PEOPLE SAY</h2>
+        <div class="testimonials-grid">
+            <div class="testi-card reveal reveal-delay-1">
+                <div class="testi-quote">"</div>
+                <p class="testi-text">The Shadow Coat is genuinely one of the best garments I've ever owned. The weight,
+                    the drape — everything is perfect. VOLT understands fabric like no one else.</p>
+                <div class="testi-author">
+                    <div class="testi-avatar">A</div>
+                    <div>
+                        <div class="testi-name">Alex Mori</div>
+                        <div class="testi-handle">@alexmori · Tokyo</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal reveal-delay-2">
+                <div class="testi-quote">"</div>
+                <p class="testi-text">Got the Void Jacket on drop day and I haven't taken it off. I get stopped on the
+                    street constantly. Worth every cent and then some.</p>
+                <div class="testi-author">
+                    <div class="testi-avatar">S</div>
+                    <div>
+                        <div class="testi-name">Sara Chen</div>
+                        <div class="testi-handle">@sarachen · NYC</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal reveal-delay-3">
+                <div class="testi-quote">"</div>
+                <p class="testi-text">I've followed hundreds of streetwear brands. VOLT is the only one I trust to
+                    deliver something genuinely new every single drop. The attention to detail is insane.</p>
+                <div class="testi-author">
+                    <div class="testi-avatar">K</div>
+                    <div>
+                        <div class="testi-name">Kai Nakamoto</div>
+                        <div class="testi-handle">@kainakamoto · London</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section id="newsletter">
+        <h2 class="reveal glitch" data-text="JOIN THE VOLT">JOIN THE <em>VOLT</em></h2>
+        <p class="reveal reveal-delay-1">Get early access to drops, exclusive collabs, and behind the scenes content</p>
+        <div class="email-form reveal reveal-delay-2">
+            <input type="email" class="email-input" placeholder="your@email.com">
+            <button class="email-btn">Subscribe</button>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-logo">VOLT</div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Shop</h4>
+                    <a href="#">New Arrivals</a>
+                    <a href="#">Outerwear</a>
+                    <a href="#">Jackets</a>
+                    <a href="#">Accessories</a>
+                    <a href="#">Archive</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Info</h4>
+                    <a href="#">About</a>
+                    <a href="#">Stockists</a>
+                    <a href="#">Sizing</a>
+                    <a href="#">Returns</a>
+                    <a href="#">FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">TikTok</a>
+                    <a href="#">Discord</a>
+                    <a href="#">Press</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copy">© 2026 VOLT Studio. All rights reserved.</div>
+            <div class="social-links">
+                <a href="#">IG</a>
+                <a href="#">TW</a>
+                <a href="#">TK</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

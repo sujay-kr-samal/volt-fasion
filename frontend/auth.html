@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOLT — Sign In</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700&family=Syne:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --black: #050505;
+            --white: #f5f0e8;
+            --accent: #ff3c00;
+            --accent2: #00f5c4;
+            --gray: #111;
+            --mid: #1a1a1a;
+            --border: rgba(245, 240, 232, 0.1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Syne', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow: hidden;
+            cursor: none;
+        }
+
+        /* CURSOR */
+        #cursor {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width .3s, height .3s, background .3s, border .3s;
+        }
+
+        #cursor-ring {
+            position: fixed;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(255, 60, 0, .4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: all .12s ease;
+        }
+
+        .cur-big {
+            width: 52px !important;
+            height: 52px !important;
+            background: transparent !important;
+            border: 1px solid var(--accent) !important;
+        }
+
+        .ring-hide {
+            opacity: 0 !important;
+        }
+
+        /* PAGE TRANSITION */
+        #page-in {
+            position: fixed;
+            inset: 0;
+            background: var(--accent);
+            z-index: 8000;
+            transform-origin: bottom;
+            animation: wipeOut .8s cubic-bezier(.77, 0, .18, 1) .1s forwards;
+        }
+
+        @keyframes wipeOut {
+            to {
+                transform: scaleY(0);
+            }
+        }
+
+        /* LAYOUT */
+        .page {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ─── LEFT VISUAL PANEL ─── */
+        .visual-panel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visual-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 40% 60%, #2a0050 0%, #0a0020 40%, #050010 100%);
+        }
+
+        /* animated mesh blobs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: .55;
+            animation: blobFloat 8s ease-in-out infinite alternate;
+        }
+
+        .blob-1 {
+            width: 380px;
+            height: 380px;
+            background: #7700ff;
+            top: -80px;
+            left: -80px;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            width: 300px;
+            height: 300px;
+            background: #ff3c00;
+            bottom: -60px;
+            right: -60px;
+            animation-delay: 2s;
+        }
+
+        .blob-3 {
+            width: 260px;
+            height: 260px;
+            background: #0066ff;
+            top: 40%;
+            left: 30%;
+            animation-delay: 4s;
+        }
+
+        .blob-4 {
+            width: 200px;
+            height: 200px;
+            background: #00f5c4;
+            bottom: 20%;
+            left: -40px;
+            animation-delay: 1s;
+        }
+
+        @keyframes blobFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(30px, 20px) scale(1.08);
+            }
+        }
+
+        /* hero image placeholder — giant letter silhouette */
+        .visual-figure {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .figure-letter {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 380px;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, .06);
+            pointer-events: none;
+            animation: letterDrift 12s ease-in-out infinite alternate;
+            user-select: none;
+        }
+
+        @keyframes letterDrift {
+            to {
+                transform: translateY(-20px) rotate(2deg);
+            }
+        }
+
+        /* overlay gradient right edge */
+        .visual-fade {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, transparent 50%, var(--black) 100%);
+        }
+
+        /* top-left logo */
+        .visual-logo {
+            position: absolute;
+            top: 32px;
+            left: 36px;
+            z-index: 10;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: .15em;
+            color: var(--white);
+            text-decoration: none;
+            animation: fadeUp .7s ease .9s both;
+        }
+
+        /* bottom tagline */
+        .visual-tagline {
+            position: absolute;
+            bottom: 40px;
+            left: 36px;
+            z-index: 10;
+            animation: fadeUp .7s ease 1.1s both;
+        }
+
+        .visual-tagline h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42px;
+            line-height: 1;
+            color: var(--white);
+        }
+
+        .visual-tagline h2 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .visual-tagline p {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .2em;
+            color: rgba(245, 240, 232, .35);
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+
+        /* floating badge */
+        .visual-badge {
+            position: absolute;
+            top: 36px;
+            right: 48px;
+            z-index: 10;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .1);
+            backdrop-filter: blur(12px);
+            padding: 10px 18px;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: .2em;
+            color: rgba(245, 240, 232, .5);
+            text-transform: uppercase;
+            animation: fadeUp .7s ease 1.3s both;
+        }
+
+        .visual-badge span {
+            color: var(--accent2);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ─── RIGHT FORM PANEL ─── */
+        .form-panel {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 60px;
+            background: var(--black);
+            overflow-y: auto;
+        }
+
+        /* nav top right */
+        .form-nav {
+            position: absolute;
+            top: 28px;
+            right: 36px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: fadeUp .6s ease 1.4s both;
+        }
+
+        .form-nav-link {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: rgba(245, 240, 232, .35);
+            text-decoration: none;
+            transition: color .25s;
+        }
+
+        .form-nav-link:hover {
+            color: var(--white);
+        }
+
+        .form-nav-btn {
+            padding: 8px 18px;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            cursor: none;
+            transition: background .25s, transform .2s;
+        }
+
+        .form-nav-btn:hover {
+            background: var(--accent2);
+            color: var(--black);
+            transform: translateY(-1px);
+        }
+
+        /* tab switcher */
+        .form-tabs {
+            display: flex;
+            gap: 0;
+            border: 1px solid var(--border);
+            margin-bottom: 36px;
+            width: 100%;
+            animation: fadeUp .6s ease 1s both;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            background: transparent;
+            color: rgba(245, 240, 232, .35);
+            border: none;
+            cursor: none;
+            transition: all .3s ease;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .tab-btn:not(.active):hover {
+            color: var(--white);
+            background: rgba(255, 255, 255, .04);
+        }
+
+        /* form box */
+        .form-box {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .form-headline {
+            margin-bottom: 32px;
+            animation: fadeUp .7s ease 1.05s both;
+        }
+
+        .form-headline h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 52px;
+            line-height: 1;
+        }
+
+        .form-headline h1 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .form-headline p {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .1em;
+            color: rgba(245, 240, 232, .3);
+            margin-top: 8px;
+        }
+
+        /* FORM PANELS */
+        .form-view {
+            display: none;
+            animation: fadeUp .5s ease both;
+        }
+
+        .form-view.active {
+            display: block;
+        }
+
+        /* input group */
+        .input-group {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+        .input-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: rgba(245, 240, 232, .3);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--mid);
+            border: 1px solid var(--border);
+            color: var(--white);
+            padding: 14px 16px;
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color .3s, background .3s;
+        }
+
+        .form-input::placeholder {
+            color: rgba(245, 240, 232, .2);
+            font-size: 13px;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent);
+            background: #1e1010;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 14px;
+            bottom: 14px;
+            font-size: 14px;
+            color: rgba(245, 240, 232, .25);
+            cursor: none;
+            transition: color .25s;
+        }
+
+        .form-input:focus~.input-icon {
+            color: var(--accent);
+        }
+
+        /* forgot */
+        .forgot-row {
+            text-align: right;
+            margin-bottom: 22px;
+            margin-top: -4px;
+        }
+
+        .forgot-link {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: .1em;
+            color: rgba(245, 240, 232, .25);
+            text-decoration: none;
+            transition: color .25s;
+            cursor: none;
+        }
+
+        .forgot-link:hover {
+            color: var(--accent);
+        }
+
+        /* submit btn */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--white);
+            color: var(--black);
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            border: none;
+            cursor: none;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform .25s;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .4s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .submit-btn:hover::before {
+            transform: scaleX(1);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn span {
+            position: relative;
+            z-index: 1;
+            color: var(--black);
+            mix-blend-mode: multiply;
+        }
+
+        .submit-btn:hover span {
+            color: var(--white);
+            mix-blend-mode: normal;
+        }
+
+        /* divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: rgba(245, 240, 232, .2);
+        }
+
+        /* social buttons */
+        .social-btns {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            background: var(--mid);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: .1em;
+            color: rgba(245, 240, 232, .5);
+            cursor: none;
+            transition: all .25s;
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            border-color: var(--accent);
+            color: var(--white);
+            background: rgba(255, 60, 0, .06);
+        }
+
+        .social-icon {
+            font-size: 16px;
+        }
+
+        /* bottom text */
+        .form-switch-text {
+            text-align: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: .1em;
+            color: rgba(245, 240, 232, .25);
+        }
+
+        .form-switch-text a {
+            color: var(--accent);
+            text-decoration: none;
+            cursor: none;
+            transition: color .25s;
+        }
+
+        .form-switch-text a:hover {
+            color: var(--accent2);
+        }
+
+        /* terms for sign up */
+        .terms-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: .08em;
+            color: rgba(245, 240, 232, .2);
+            line-height: 1.7;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+
+        .terms-text a {
+            color: var(--accent);
+            text-decoration: none;
+            cursor: none;
+        }
+
+        /* password strength */
+        .strength-bar {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+            margin-bottom: 14px;
+        }
+
+        .strength-seg {
+            height: 3px;
+            flex: 1;
+            background: var(--border);
+            transition: background .3s;
+        }
+
+        .strength-seg.weak {
+            background: #ff3c00;
+        }
+
+        .strength-seg.ok {
+            background: #f5c800;
+        }
+
+        .strength-seg.good {
+            background: var(--accent2);
+        }
+
+        .strength-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            letter-spacing: .1em;
+            color: rgba(245, 240, 232, .2);
+            margin-top: -10px;
+            margin-bottom: 14px;
+            text-align: right;
+        }
+
+        /* checkbox */
+        .check-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 18px;
+            cursor: none;
+        }
+
+        .check-box {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .2s;
+            margin-top: 2px;
+        }
+
+        .check-box.checked {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .check-box.checked::after {
+            content: '✓';
+            font-size: 10px;
+            color: var(--white);
+        }
+
+        .check-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: .08em;
+            color: rgba(245, 240, 232, .3);
+            line-height: 1.6;
+        }
+
+        .check-label a {
+            color: var(--accent);
+            text-decoration: none;
+            cursor: none;
+        }
+
+        /* floating dots decoration */
+        .dots-deco {
+            position: absolute;
+            bottom: 32px;
+            left: 32px;
+            display: grid;
+            grid-template-columns: repeat(5, 8px);
+            gap: 6px;
+            opacity: .15;
+        }
+
+        .dot-d {
+            width: 3px;
+            height: 3px;
+            background: var(--white);
+            border-radius: 50%;
+        }
+
+        /* SUCCESS STATE */
+        .success-view {
+            display: none;
+            text-align: center;
+            animation: fadeUp .5s ease both;
+        }
+
+        .success-view.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 20px;
+            animation: popIn .5s cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .success-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .success-sub {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .1em;
+            color: rgba(245, 240, 232, .3);
+            margin-bottom: 32px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background: var(--accent);
+            color: var(--white);
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background .25s;
+            cursor: none;
+        }
+
+        .home-btn:hover {
+            background: var(--accent2);
+            color: var(--black);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 800px) {
+            .page {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-panel {
+                display: none;
+            }
+
+            .form-panel {
+                padding: 80px 28px 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    <div id="page-in"></div>
+
+    <div class="page">
+
+        <!-- ── LEFT PANEL ── -->
+        <div class="visual-panel">
+            <div class="visual-bg"></div>
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <div class="blob blob-4"></div>
+            <div class="visual-figure">
+                <div class="figure-letter">V</div>
+            </div>
+            <div class="visual-fade"></div>
+
+            <a href="index.html" class="visual-logo">VOLT</a>
+
+            <div class="visual-badge">Drop 01 &nbsp;·&nbsp; <span>Live Now</span></div>
+
+            <div class="visual-tagline">
+                <h2>WEAR THE<br><em>FUTURE</em></h2>
+                <p>Members get early drop access</p>
+            </div>
+        </div>
+
+        <!-- ── RIGHT PANEL ── -->
+        <div class="form-panel">
+
+            <div class="form-nav">
+                <a href="index.html" class="form-nav-link">Home</a>
+                <a href="shop.html" class="form-nav-link">Shop</a>
+                <a href="cart.html" class="form-nav-link">Cart</a>
+                <button class="form-nav-btn" onclick="switchTab('signup')">Register</button>
+            </div>
+
+            <div class="form-box">
+
+                <div class="form-headline" id="form-headline">
+                    <h1>Hello!<br><em>Welcome Back</em></h1>
+                    <p>Sign in to access your VOLT account</p>
+                </div>
+
+                <!-- TABS -->
+                <div class="form-tabs">
+                    <button class="tab-btn active" id="tab-signin" onclick="switchTab('signin')">Sign In</button>
+                    <button class="tab-btn" id="tab-signup" onclick="switchTab('signup')">Create Account</button>
+                </div>
+
+                <!-- SIGN IN FORM -->
+                <div class="form-view active" id="view-signin">
+                    <div class="input-group">
+                        <label class="input-label">Email Address</label>
+                        <input class="form-input" type="email" placeholder="you@email.com" id="si-email">
+                        <span class="input-icon">✉</span>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Password</label>
+                        <input class="form-input" type="password" placeholder="••••••••" id="si-pass">
+                        <span class="input-icon" id="toggle-si" onclick="togglePass('si-pass','toggle-si')"
+                            style="cursor:none">👁</span>
+                    </div>
+                    <div class="forgot-row">
+                        <a href="#" class="forgot-link">Recover Password?</a>
+                    </div>
+                    <button class="submit-btn" onclick="handleSignIn()"><span>Sign In</span></button>
+                    <div class="divider">
+                        <div class="divider-line"></div>
+                        <div class="divider-text">Or continue with</div>
+                        <div class="divider-line"></div>
+                    </div>
+                    <div class="social-btns">
+                        <a href="#" class="social-btn"><span class="social-icon">G</span> Google</a>
+                        <a href="#" class="social-btn"><span class="social-icon">🍎</span> Apple</a>
+                        <a href="#" class="social-btn"><span class="social-icon">f</span> Facebook</a>
+                    </div>
+                    <div class="form-switch-text">
+                        Don't have an account? <a href="#" onclick="switchTab('signup')">Create Account →</a>
+                    </div>
+                </div>
+
+                <!-- SIGN UP FORM -->
+                <div class="form-view" id="view-signup">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                        <div class="input-group">
+                            <label class="input-label">First Name</label>
+                            <input class="form-input" type="text" placeholder="Alex">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Last Name</label>
+                            <input class="form-input" type="text" placeholder="Mori">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Email Address</label>
+                        <input class="form-input" type="email" placeholder="you@email.com">
+                        <span class="input-icon">✉</span>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Password</label>
+                        <input class="form-input" type="password" placeholder="Min. 8 characters" id="su-pass"
+                            oninput="checkStrength(this.value)">
+                        <span class="input-icon" id="toggle-su" onclick="togglePass('su-pass','toggle-su')"
+                            style="cursor:none">👁</span>
+                    </div>
+                    <div class="strength-bar">
+                        <div class="strength-seg" id="s1"></div>
+                        <div class="strength-seg" id="s2"></div>
+                        <div class="strength-seg" id="s3"></div>
+                        <div class="strength-seg" id="s4"></div>
+                    </div>
+                    <div class="strength-label" id="strength-label">—</div>
+
+                    <div class="check-row" onclick="toggleCheck(this)">
+                        <div class="check-box"></div>
+                        <div class="check-label">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy
+                                Policy</a></div>
+                    </div>
+                    <div class="check-row" onclick="toggleCheck(this)">
+                        <div class="check-box"></div>
+                        <div class="check-label">Get early access to drops & exclusive offers</div>
+                    </div>
+
+                    <button class="submit-btn" onclick="handleSignUp()"><span>Create Account</span></button>
+                    <div class="divider">
+                        <div class="divider-line"></div>
+                        <div class="divider-text">Or continue with</div>
+                        <div class="divider-line"></div>
+                    </div>
+                    <div class="social-btns">
+                        <a href="#" class="social-btn"><span class="social-icon">G</span> Google</a>
+                        <a href="#" class="social-btn"><span class="social-icon">🍎</span> Apple</a>
+                        <a href="#" class="social-btn"><span class="social-icon">f</span> Facebook</a>
+                    </div>
+                    <div class="form-switch-text">
+                        Already have an account? <a href="#" onclick="switchTab('signin')">Sign In →</a>
+                    </div>
+                </div>
+
+                <!-- SUCCESS VIEW -->
+                <div class="success-view" id="view-success">
+                    <div class="success-icon">✓</div>
+                    <div class="success-title">YOU'RE IN!</div>
+                    <div class="success-sub">Welcome to the VOLT family.<br>Early drop access activated.</div>
+                    <a href="index.html" class="home-btn">Enter the Store →</a>
+                </div>
+
+            </div>
+
+            <!-- decoration dots -->
+            <div class="dots-deco">
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+                <div class="dot-d"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CURSOR
+        const cur = document.getElementById('cursor');
+        const ring = document.getElementById('cursor-ring');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+        (function anim() {
+            rx += (mx - rx) * .13; ry += (my - ry) * .13;
+            cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+            ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+            requestAnimationFrame(anim);
+        })();
+        document.addEventListener('mouseover', e => {
+            if (e.target.matches('a,button,input,.social-btn,.check-row,.swatch,.tab-btn')) {
+                cur.classList.add('cur-big'); ring.classList.add('ring-hide');
+            } else {
+                cur.classList.remove('cur-big'); ring.classList.remove('ring-hide');
+            }
+        });
+
+        // TABS
+        function switchTab(tab) {
+            const isSignIn = tab === 'signin';
+            document.getElementById('tab-signin').classList.toggle('active', isSignIn);
+            document.getElementById('tab-signup').classList.toggle('active', !isSignIn);
+            document.getElementById('view-signin').classList.toggle('active', isSignIn);
+            document.getElementById('view-signup').classList.toggle('active', !isSignIn);
+            document.getElementById('view-success').classList.remove('show');
+
+            const h = document.getElementById('form-headline');
+            if (isSignIn) {
+                h.querySelector('h1').innerHTML = 'Hello!<br><em>Welcome Back</em>';
+                h.querySelector('p').textContent = 'Sign in to access your VOLT account';
+            } else {
+                h.querySelector('h1').innerHTML = 'Join<br><em>VOLT</em>';
+                h.querySelector('p').textContent = 'Create your account to get early drop access';
+            }
+        }
+
+        // TOGGLE PASSWORD
+        function togglePass(inputId, iconId) {
+            const inp = document.getElementById(inputId);
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+        }
+
+        // STRENGTH METER
+        function checkStrength(val) {
+            const segs = [document.getElementById('s1'), document.getElementById('s2'), document.getElementById('s3'), document.getElementById('s4')];
+            const label = document.getElementById('strength-label');
+            segs.forEach(s => s.className = 'strength-seg');
+            if (!val) { label.textContent = '—'; return; }
+            let score = 0;
+            if (val.length >= 8) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+            const classes = ['weak', 'weak', 'ok', 'good'];
+            const labels = ['Too Short', 'Weak', 'Good', 'Strong'];
+            for (let i = 0; i < score; i++) segs[i].classList.add(classes[score - 1]);
+            label.textContent = labels[score - 1] || '—';
+            label.style.color = score === 4 ? 'var(--accent2)' : score === 3 ? '#f5c800' : 'var(--accent)';
+        }
+
+        // CHECKBOX
+        function toggleCheck(row) {
+            const box = row.querySelector('.check-box');
+            box.classList.toggle('checked');
+        }
+
+        // SIGN IN
+        async function handleSignIn() {
+            const email = document.getElementById('si-email').value;
+            const pass = document.getElementById('si-pass').value;
+            if (!email || !pass) { shake(document.querySelector('.submit-btn')); return; }
+
+            try {
+                const res = await fetch('http://localhost:5000/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password: pass })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    sessionStorage.setItem('volt_user', JSON.stringify(data.user));
+                    showSuccess(data.user.name);
+                } else {
+                    alert(data.message || 'Login failed');
+                    shake(document.querySelector('.submit-btn'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error, please try again.');
+                shake(document.querySelector('.submit-btn'));
+            }
+        }
+
+        // SIGN UP
+        async function handleSignUp() {
+            const pass = document.getElementById('su-pass').value;
+            const fname = document.querySelector('#view-signup input[placeholder="Alex"]').value;
+            const lname = document.querySelector('#view-signup input[placeholder="Mori"]').value;
+            const email = document.querySelector('#view-signup input[type="email"]').value;
+
+            if (!email || !pass || pass.length < 8) {
+                shake(document.querySelector('#view-signup .submit-btn'));
+                return;
+            }
+
+            try {
+                const res = await fetch('http://localhost:5000/api/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ firstName: fname, lastName: lname, email, password: pass })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    sessionStorage.setItem('volt_user', JSON.stringify(data.user));
+                    showSuccess(data.user.name);
+                } else {
+                    alert(data.message || 'Signup failed');
+                    shake(document.querySelector('#view-signup .submit-btn'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error, please try again.');
+                shake(document.querySelector('#view-signup .submit-btn'));
+            }
+        }
+
+        function showSuccess(name) {
+            document.getElementById('view-signin').classList.remove('active');
+            document.getElementById('view-signup').classList.remove('active');
+            const h = document.getElementById('form-headline');
+            h.style.opacity = '0';
+            const sv = document.getElementById('view-success');
+            sv.classList.add('show');
+            // personalise success
+            const first = name ? name.split(' ')[0] : 'you';
+            sv.querySelector('.success-title').textContent = "YOU'RE IN, " + first.toUpperCase() + "!";
+            document.querySelectorAll('.form-tabs')[0].style.opacity = '0';
+        }
+
+        function shake(el) {
+            el.style.animation = 'none';
+            el.style.transform = 'translateX(8px)';
+            setTimeout(() => { el.style.transform = 'translateX(-8px)'; }, 80);
+            setTimeout(() => { el.style.transform = 'translateX(4px)'; }, 160);
+            setTimeout(() => { el.style.transform = ''; }, 240);
+        }
+
+        // PARALLAX blobs on mouse
+        document.addEventListener('mousemove', e => {
+            const x = (e.clientX / window.innerWidth - .5) * 20;
+            const y = (e.clientY / window.innerHeight - .5) * 20;
+            document.querySelectorAll('.blob').forEach((b, i) => {
+                const factor = (i + 1) * 0.4;
+                b.style.transform = `translate(${x * factor}px,${y * factor}px)`;
+            });
+        });
+    </script>
+</body>
+
+</html>

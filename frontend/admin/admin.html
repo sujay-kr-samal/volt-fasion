@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOLT — Admin Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --black: #050505;
+            --white: #f5f0e8;
+            --accent: #ff3c00;
+            --accent2: #00f5c4;
+            --gray: #111111;
+            --mid: #1a1a1a;
+            --border: rgba(245, 240, 232, 0.08);
+            --sidebar-width: 260px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Syne', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        aside {
+            width: var(--sidebar-width);
+            border-right: 1px solid var(--border);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 32px 0;
+            z-index: 1000;
+            background: var(--black);
+        }
+
+        .side-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: .15em;
+            color: var(--white);
+            text-decoration: none;
+            padding: 0 32px;
+            margin-bottom: 48px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .side-logo span {
+            color: var(--accent);
+        }
+
+        .nav-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: .2em;
+            color: rgba(245, 240, 232, .2);
+            text-transform: uppercase;
+            padding: 0 32px;
+            margin: 16px 0 8px;
+        }
+
+        .nav-item {
+            padding: 12px 32px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: .1em;
+            color: rgba(245, 240, 232, .5);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all .25s;
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--white);
+            background: rgba(255, 60, 0, .05);
+            border-left-color: var(--accent);
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+        }
+
+        .side-footer {
+            padding: 24px 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            color: var(--black);
+            font-family: 'Bebas Neue', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .admin-info {
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .admin-name {
+            color: var(--white);
+            font-weight: 700;
+            block-size: 1.2;
+        }
+
+        .admin-role {
+            color: rgba(245, 240, 232, .3);
+            font-size: 8px;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 48px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        .page-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            letter-spacing: .02em;
+        }
+
+        .header-r {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid var(--border);
+            color: rgba(245, 240, 232, .4);
+            padding: 8px 16px;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all .25s;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* DASHBOARD GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .stat-card {
+            background: var(--mid);
+            border: 1px solid var(--border);
+            padding: 24px;
+            transition: transform .3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .1em;
+            color: rgba(245, 240, 232, .3);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .stat-val {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            color: var(--white);
+        }
+
+        .stat-change {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            margin-top: 8px;
+        }
+
+        .up {
+            color: var(--accent2);
+        }
+
+        .down {
+            color: var(--accent);
+        }
+
+        /* SECTION VIEW */
+        .section-view {
+            display: none;
+        }
+
+        .section-view.active {
+            display: block;
+            animation: fadeIn .4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+        }
+
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+        }
+
+        th {
+            text-align: left;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .1em;
+            color: rgba(245, 240, 232, .2);
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 16px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            border-bottom: 1px solid var(--border);
+            color: rgba(245, 240, 232, .7);
+        }
+
+        tr:hover td {
+            background: rgba(245, 240, 232, .02);
+            color: var(--white);
+        }
+
+        .badge {
+            padding: 4px 8px;
+            font-size: 9px;
+            border-radius: 2px;
+            text-transform: uppercase;
+        }
+
+        .badge-pending {
+            background: rgba(255, 60, 0, .1);
+            color: var(--accent);
+        }
+
+        .badge-done {
+            background: rgba(0, 245, 196, .1);
+            color: var(--accent2);
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn .3s ease;
+        }
+
+        .modal-box {
+            background: var(--mid);
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 48px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: rgba(245, 240, 232, .3);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color .2s;
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        label {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: .1em;
+            color: rgba(245, 240, 232, .4);
+            text-transform: uppercase;
+        }
+
+        input,
+        select,
+        textarea {
+            background: var(--black);
+            border: 1px solid var(--border);
+            color: var(--white);
+            padding: 12px 16px;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            outline: none;
+            transition: border-color .3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .modal-footer {
+            margin-top: 48px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+        }
+
+        .btn-cancel {
+            background: none;
+            border: 1px solid var(--border);
+            color: rgba(245, 240, 232, .4);
+            padding: 12px 32px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            padding: 12px 32px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside>
+        <a href="../index.html" class="side-logo">VOLT<span>.</span>OS</a>
+
+        <div class="nav-group">
+            <div class="nav-label">General</div>
+            <a href="#" class="nav-item active" onclick="showSection('dashboard', this)">📊 Dashboard</a>
+            <a href="#" class="nav-item" onclick="showSection('products', this)">👕 Products</a>
+            <a href="#" class="nav-item" onclick="showSection('orders', this)">🛒 Orders</a>
+            <a href="#" class="nav-item" onclick="showSection('customers', this)">👤 Customers</a>
+
+            <div class="nav-label">Marketing</div>
+            <a href="#" class="nav-item" onclick="showSection('offers', this)">💸 Pricing & Offers</a>
+            <a href="#" class="nav-item" onclick="showSection('content', this)">🖼️ Content Control</a>
+
+            <div class="nav-label">System</div>
+            <a href="#" class="nav-item" onclick="showSection('staff', this)">🔐 Staff & Roles</a>
+            <a href="#" class="nav-item" onclick="showSection('settings', this)">⚙️ Settings</a>
+        </div>
+
+        <div class="side-footer">
+            <div class="admin-profile">
+                <div class="admin-avatar" id="admin-initials">AD</div>
+                <div class="admin-info">
+                    <div class="admin-name" id="admin-name">Admin Name</div>
+                    <div class="admin-role">System Administrator</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <header>
+            <div class="page-title" id="current-title">Dashboard</div>
+            <div class="header-r">
+                <div id="clock" style="font-family:'Space Mono';font-size:12px;color:rgba(245,240,232,.4)">03:41 AM
+                </div>
+                <button class="btn-logout" onclick="logout()">Secure Logout</button>
+            </div>
+        </header>
+
+        <!-- DASHBOARD SECTION -->
+        <div id="section-dashboard" class="section-view active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Revenue</div>
+                    <div class="stat-val" id="stat-revenue">$0</div>
+                    <div class="stat-change up">+12.4% from last month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Active Orders</div>
+                    <div class="stat-val" id="stat-orders">0</div>
+                    <div class="stat-change up">+5 new today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Products</div>
+                    <div class="stat-val" id="stat-products">0</div>
+                    <div class="stat-change">12 categories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">New Customers</div>
+                    <div class="stat-val" id="stat-customers">0</div>
+                    <div class="stat-change up">+8.2% vs prev week</div>
+                </div>
+            </div>
+
+            <div class="section-label">Recent Activity</div>
+            <table id="recent-orders">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="recent-orders-body">
+                    <!-- Dynamic -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- OTHER SECTIONS PLACEHOLDER -->
+        <div id="section-products" class="section-view">
+            <div class="section-header" style="display:flex;justify-content:space-between;align-items:center">
+                <div class="section-label">Inventory Overview</div>
+                <button class="btn-logout" style="border-color:var(--accent2);color:var(--accent2)"
+                    onclick="openAddProduct()">+ Add New Product</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-products-body">
+                    <!-- Dynamic -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="section-orders" class="section-view">
+            <div class="section-label">Order Management</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-orders-body">
+                    <!-- Dynamic -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="section-offers" class="section-view">
+            <div class="section-header" style="display:flex;justify-content:space-between;align-items:center">
+                <div class="section-label">Active Coupons & Offers</div>
+                <button class="btn-logout" style="border-color:var(--accent2);color:var(--accent2)"
+                    onclick="openAddOffer()">+ Create Offer</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Discount</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-offers-body">
+                    <!-- Dynamic -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="section-staff" class="section-view">
+            <div class="section-label">Staff & Team Management</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-staff-body">
+                    <!-- Dynamic -->
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <!-- PRODUCT MODAL -->
+    <div class="modal-overlay" id="modal-product">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeProductModal()">✕</button>
+            <div class="page-title" id="product-modal-title" style="font-size:32px">Add New Product</div>
+
+            <form id="product-form" onsubmit="saveProduct(event)">
+                <input type="hidden" name="id" id="product-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" name="name" required placeholder="e.g. Shadow Coat">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="cat" required>
+                            <option value="outerwear">Outerwear</option>
+                            <option value="jackets">Jackets</option>
+                            <option value="hoodies">Hoodies</option>
+                            <option value="tees">Tees</option>
+                            <option value="bottoms">Bottoms</option>
+                            <option value="accessories">Accessories</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Normal Price ($)</label>
+                        <input type="number" name="price" required placeholder="480">
+                    </div>
+                    <div class="form-group">
+                        <label>Original Price (for Discount)</label>
+                        <input type="number" name="orig" placeholder="600">
+                    </div>
+                    <div class="form-group">
+                        <label>Badge</label>
+                        <input type="text" name="badge" placeholder="new / limited / sold">
+                    </div>
+                    <div class="form-group">
+                        <label>Colors (Hex, comma separated)</label>
+                        <input type="text" name="colors" placeholder="#050505, #1a3a5c">
+                    </div>
+                    <div class="form-group full">
+                        <label>Description</label>
+                        <textarea name="desc" rows="4" placeholder="Product details..."></textarea>
+                    </div>
+
+                    <div class="nav-label" style="grid-column: span 2; padding: 0; margin-top: 12px">Stock Management
+                    </div>
+                    <div class="form-group">
+                        <label>Stock XS</label>
+                        <input type="number" name="stock_xs" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock S</label>
+                        <input type="number" name="stock_s" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock M</label>
+                        <input type="number" name="stock_m" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock L</label>
+                        <input type="number" name="stock_l" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock XL</label>
+                        <input type="number" name="stock_xl" value="0">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeProductModal()">Cancel</button>
+                    <button type="submit" class="btn-save">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- OFFER MODAL -->
+    <div class="modal-overlay" id="modal-offer">
+        <div class="modal-box" style="max-width: 500px">
+            <button class="modal-close" onclick="closeOfferModal()">✕</button>
+            <div class="page-title" style="font-size:32px">Create New Offer</div>
+
+            <form id="offer-form" onsubmit="saveOffer(event)">
+                <div class="form-grid" style="grid-template-columns: 1fr">
+                    <div class="form-group">
+                        <label>Coupon Code</label>
+                        <input type="text" name="code" required placeholder="VOLT20">
+                    </div>
+                    <div class="form-group">
+                        <label>Discount Value (%)</label>
+                        <input type="number" name="discount" required placeholder="20">
+                    </div>
+                    <div class="form-group">
+                        <label>Offer Type</label>
+                        <select name="type">
+                            <option value="percentage">Percentage Discount</option>
+                            <option value="fixed">Fixed Amount</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeOfferModal()">Cancel</button>
+                    <button type="submit" class="btn-save">Create Offer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const admin = JSON.parse(sessionStorage.getItem('volt_user'));
+        if (!admin || admin.role !== 'admin') {
+            window.location.href = '../auth.html';
+        }
+
+        document.getElementById('admin-name').textContent = admin.name;
+        document.getElementById('admin-initials').textContent = admin.name.split(' ').map(n => n[0]).join('').toUpperCase();
+
+        function showSection(id, el) {
+            document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('section-' + id).classList.add('active');
+            el.classList.add('active');
+            document.getElementById('current-title').textContent = el.textContent.split(' ')[1];
+            if (id === 'dashboard') loadStats();
+            if (id === 'products') loadProducts();
+            if (id === 'orders') loadOrders();
+            if (id === 'offers') loadOffers();
+            if (id === 'staff') loadStaff();
+            if (id === 'customers') loadCustomers();
+        }
+
+        async function loadStats() {
+            const res = await fetch('http://localhost:5000/api/admin/stats', {
+                headers: { 'x-user-role': 'admin' }
+            });
+            const stats = await res.json();
+            document.getElementById('stat-revenue').textContent = '$' + stats.totalRevenue.toLocaleString();
+            document.getElementById('stat-orders').textContent = stats.totalOrders;
+            document.getElementById('stat-products').textContent = stats.totalProducts;
+            document.getElementById('stat-customers').textContent = stats.totalCustomers;
+        }
+
+        async function loadProducts() {
+            const res = await fetch('http://localhost:5000/api/products');
+            const data = await res.json();
+            const body = document.getElementById('admin-products-body');
+            body.innerHTML = data.map(p => {
+                const totalStock = Object.values(p.stock).reduce((a, b) => a + b, 0);
+                return `
+                <tr>
+                    <td>#${p.id}</td>
+                    <td>${p.name}</td>
+                    <td>$${p.price}</td>
+                    <td>${totalStock} units</td>
+                    <td><span class="badge ${totalStock > 0 ? 'badge-done' : 'badge-pending'}">${totalStock > 0 ? 'In Stock' : 'Out of Stock'}</span></td>
+                    <td>
+                        <button onclick='editProduct(${JSON.stringify(p)})' style="background:none;border:none;color:var(--accent2);cursor:pointer;margin-right:10px">Edit</button>
+                        <button onclick='deleteProduct("${p.id}")' style="background:none;border:none;color:var(--accent);cursor:pointer">Delete</button>
+                    </td>
+                </tr>
+                `
+            }).join('');
+        }
+
+        function logout() {
+            sessionStorage.removeItem('volt_user');
+            window.location.href = '../index.html';
+        }
+
+        function openAddProduct() {
+            document.getElementById('product-modal-title').textContent = 'Add New Product';
+            document.getElementById('product-form').reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('modal-product').classList.add('active');
+        }
+
+        function editProduct(p) {
+            document.getElementById('product-modal-title').textContent = 'Edit Product';
+            const form = document.getElementById('product-form');
+            form.id.value = p.id;
+            form.name.value = p.name;
+            form.cat.value = p.cat;
+            form.price.value = p.price;
+            form.orig.value = p.orig || '';
+            form.badge.value = p.badge || '';
+            form.colors.value = (p.colors || []).join(', ');
+            form.desc.value = p.desc || '';
+            form.stock_xs.value = p.stock.XS || 0;
+            form.stock_s.value = p.stock.S || 0;
+            form.stock_m.value = p.stock.M || 0;
+            form.stock_l.value = p.stock.L || 0;
+            form.stock_xl.value = p.stock.XL || 0;
+            document.getElementById('modal-product').classList.add('active');
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('Are you sure you want to delete this product?')) return;
+            const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+                method: 'DELETE',
+                headers: { 'x-user-role': 'admin' }
+            });
+            if (res.ok) loadProducts();
+        }
+
+        function closeProductModal() {
+            document.getElementById('modal-product').classList.remove('active');
+        }
+
+        async function saveProduct(e) {
+            e.preventDefault();
+            const form = e.target;
+            const id = form.id.value;
+            const product = {
+                name: form.name.value,
+                cat: form.cat.value,
+                price: parseFloat(form.price.value),
+                orig: form.orig.value ? parseFloat(form.orig.value) : null,
+                badge: form.badge.value || null,
+                desc: form.desc.value,
+                stock: {
+                    XS: parseInt(form.stock_xs.value) || 0,
+                    S: parseInt(form.stock_s.value) || 0,
+                    M: parseInt(form.stock_m.value) || 0,
+                    L: parseInt(form.stock_l.value) || 0,
+                    XL: parseInt(form.stock_xl.value) || 0
+                },
+                colors: form.colors.value.split(',').map(c => c.trim()),
+                sizes: ['XS', 'S', 'M', 'L', 'XL'],
+                bg: "linear-gradient(135deg,#1a1a1a,#2d2d2d)",
+                letter: form.name.value[0].toUpperCase()
+            };
+
+            const url = id ? `http://localhost:5000/api/products/${id}` : 'http://localhost:5000/api/products';
+            const method = id ? 'PUT' : 'POST';
+
+            const res = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-user-role': 'admin'
+                },
+                body: JSON.stringify(product)
+            });
+
+            if (res.ok) {
+                closeProductModal();
+                loadProducts();
+            }
+        }
+
+        async function loadOrders() {
+            const res = await fetch('http://localhost:5000/api/orders', {
+                headers: { 'x-user-role': 'admin' }
+            });
+            const data = await res.json();
+            const body = document.getElementById('admin-orders-body');
+            body.innerHTML = data.map(o => `
+                <tr>
+                    <td>${o.id}</td>
+                    <td>${o.customerName}</td>
+                    <td>$${o.total.toFixed(2)}</td>
+                    <td><span class="badge ${o.status === 'Processing' ? 'badge-pending' : 'badge-done'}">${o.status}</span></td>
+                    <td>
+                        <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px">
+                            <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="Refunded" ${o.status === 'Refunded' ? 'selected' : ''}>Refunded</option>
+                        </select>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Also update dashboard list
+            const dashBody = document.getElementById('recent-orders-body');
+            if (dashBody) dashBody.innerHTML = body.innerHTML;
+        }
+
+        async function updateOrderStatus(id, status) {
+            const res = await fetch(`http://localhost:5000/api/orders/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-user-role': 'admin'
+                },
+                body: JSON.stringify({ status })
+            });
+            if (res.ok) loadOrders();
+        }
+
+        async function loadOffers() {
+            const res = await fetch('http://localhost:5000/api/offers');
+            const data = await res.json();
+            const body = document.getElementById('admin-offers-body');
+            body.innerHTML = data.map(o => `
+                <tr>
+                    <td>${o.code}</td>
+                    <td>${o.discount}%</td>
+                    <td>${o.type}</td>
+                    <td><span class="badge badge-done">Active</span></td>
+                    <td><button onclick="deleteOffer('${o.id}')" style="background:none;border:none;color:var(--accent);cursor:pointer">Remove</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function openAddOffer() {
+            document.getElementById('offer-form').reset();
+            document.getElementById('modal-offer').classList.add('active');
+        }
+
+        function closeOfferModal() {
+            document.getElementById('modal-offer').classList.remove('active');
+        }
+
+        async function saveOffer(e) {
+            e.preventDefault();
+            const form = e.target;
+            const offer = {
+                code: form.code.value.toUpperCase(),
+                discount: parseInt(form.discount.value),
+                type: form.type.value
+            };
+            const res = await fetch('http://localhost:5000/api/offers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-user-role': 'admin'
+                },
+                body: JSON.stringify(offer)
+            });
+            if (res.ok) {
+                closeOfferModal();
+                loadOffers();
+            }
+        }
+
+        async function deleteOffer(id) {
+            await fetch(`http://localhost:5000/api/offers/${id}`, {
+                method: 'DELETE',
+                headers: { 'x-user-role': 'admin' }
+            });
+            loadOffers();
+        }
+
+        async function loadCustomers() {
+            const res = await fetch('http://localhost:5000/api/admin/stats', {
+                headers: { 'x-user-role': 'admin' }
+            });
+            // Just placeholder for now
+        }
+
+        async function loadStaff() {
+            const res = await fetch('http://localhost:5000/api/admin/staff', {
+                headers: { 'x-user-role': 'admin' }
+            });
+            const data = await res.json();
+            const body = document.getElementById('admin-staff-body');
+            body.innerHTML = data.map(s => `
+                <tr>
+                    <td>${s.name}</td>
+                    <td>${s.email}</td>
+                    <td><span class="badge" style="background:rgba(0,245,196,.1);color:var(--accent2)">${s.role}</span></td>
+                    <td><span class="badge badge-done">Active</span></td>
+                    <td>
+                        ${s.email !== admin.email ? `<button onclick="deleteStaff('${s.id}')" style="background:none;border:none;color:var(--accent);cursor:pointer">Remove Access</button>` : '<span style="color:rgba(245,240,232,.3)">Current User</span>'}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function deleteStaff(id) {
+            if (!confirm('Are you sure you want to remove this staff member?')) return;
+            const res = await fetch(`http://localhost:5000/api/admin/staff/${id}`, {
+                method: 'DELETE',
+                headers: { 'x-user-role': 'admin' }
+            });
+            if (res.ok) loadStaff();
+        }
+    </script>
+</body>
+
+</html>

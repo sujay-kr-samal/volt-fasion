@@ -1,0 +1,365 @@
+[
+    {
+        "id": 1,
+        "name": "Shadow Coat",
+        "cat": "outerwear",
+        "badge": "new",
+        "price": 480,
+        "orig": 600,
+        "colors": [
+            "#050505",
+            "#1a3a5c",
+            "#2d1a0a"
+        ],
+        "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL"
+        ],
+        "bg": "linear-gradient(135deg,#1a0a00,#3d1500)",
+        "letter": "V",
+        "rating": 4.8,
+        "reviews": 124,
+        "desc": "Heavyweight Japanese wool blend. Oversized silhouette with custom VOLT hardware detailing. Numbered edition.",
+        "stock": {
+            "XS": 5,
+            "S": 10,
+            "M": 15,
+            "L": 8,
+            "XL": 4
+        }
+    },
+    {
+        "id": 2,
+        "name": "Void Jacket",
+        "cat": "jackets",
+        "badge": "limited",
+        "price": 320,
+        "orig": 400,
+        "colors": [
+            "#050505",
+            "#1a3a5c"
+        ],
+        "sizes": [
+            "S",
+            "M",
+            "L",
+            "XL"
+        ],
+        "bg": "linear-gradient(135deg,#000a1a,#001530)",
+        "letter": "O",
+        "rating": 4.9,
+        "reviews": 87,
+        "desc": "Technical shell jacket with matte finish. Water-resistant treated fabric. Signature zipper tape.",
+        "stock": {
+            "S": 12,
+            "M": 20,
+            "L": 10,
+            "XL": 5
+        }
+    },
+    {
+        "id": 3,
+        "name": "Neon Rig",
+        "cat": "jackets",
+        "badge": null,
+        "price": 240,
+        "orig": null,
+        "colors": [
+            "#1a2d1a",
+            "#050505"
+        ],
+        "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L"
+        ],
+        "bg": "linear-gradient(135deg,#0a1a00,#152800)",
+        "letter": "L",
+        "rating": 4.6,
+        "reviews": 56,
+        "desc": "Lightweight utility jacket with reflective piping. Street-ready construction for all seasons.",
+        "stock": {
+            "XS": 8,
+            "S": 15,
+            "M": 12,
+            "L": 6
+        }
+    },
+    {
+        "id": 4,
+        "name": "Ghost Hoodie",
+        "cat": "hoodies",
+        "badge": "sold",
+        "price": 180,
+        "orig": 220,
+        "colors": [
+            "#050505",
+            "#1a1a1a"
+        ],
+        "sizes": [
+            "S",
+            "M",
+            "L"
+        ],
+        "bg": "linear-gradient(135deg,#1a001a,#2a0030)",
+        "letter": "T",
+        "rating": 4.7,
+        "reviews": 203,
+        "desc": "350gsm French terry. Dropped shoulder construction. Embroidered VOLT logo at chest.",
+        "stock": {
+            "S": 0,
+            "M": 0,
+            "L": 0
+        }
+    },
+    {
+        "id": 5,
+        "name": "Signal Shirt",
+        "cat": "tees",
+        "badge": "pre",
+        "price": 120,
+        "orig": null,
+        "colors": [
+            "#f5f0e8",
+            "#050505",
+            "#ff3c00"
+        ],
+        "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+        ],
+        "bg": "linear-gradient(135deg,#1a1000,#2a1a00)",
+        "letter": "V",
+        "rating": 4.5,
+        "reviews": 34,
+        "desc": "180gsm organic cotton. Relaxed fit. Graphic print designed by VOLT studio in-house.",
+        "stock": {
+            "XS": 20,
+            "S": 30,
+            "M": 40,
+            "L": 25,
+            "XL": 15,
+            "XXL": 10
+        }
+    },
+    {
+        "id": 6,
+        "name": "Circuit Pants",
+        "cat": "bottoms",
+        "badge": null,
+        "price": 280,
+        "orig": 350,
+        "colors": [
+            "#050505",
+            "#2d1a0a"
+        ],
+        "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL"
+        ],
+        "bg": "linear-gradient(135deg,#001a1a,#002828)",
+        "letter": "T",
+        "rating": 4.8,
+        "reviews": 91,
+        "desc": "Cargo silhouette with technical zip pockets. Relaxed tapered leg. VOLT hardware throughout.",
+        "stock": {
+            "XS": 7,
+            "S": 12,
+            "M": 18,
+            "L": 10,
+            "XL": 5
+        }
+    },
+    {
+        "id": 7,
+        "name": "Orbit Shell",
+        "cat": "outerwear",
+        "badge": "new",
+        "price": 560,
+        "orig": 700,
+        "colors": [
+            "#1a3a5c",
+            "#050505",
+            "#3d003d"
+        ],
+        "sizes": [
+            "S",
+            "M",
+            "L",
+            "XL"
+        ],
+        "bg": "linear-gradient(135deg,#001228,#001a3d)",
+        "letter": "O",
+        "rating": 4.9,
+        "reviews": 42,
+        "desc": "Premium shell construction. Removable lining. 3-layer waterproof membrane. Drop fit.",
+        "stock": {
+            "S": 5,
+            "M": 8,
+            "L": 6,
+            "XL": 3
+        }
+    },
+    {
+        "id": 8,
+        "name": "Static Tee",
+        "cat": "tees",
+        "badge": null,
+        "price": 95,
+        "orig": null,
+        "colors": [
+            "#f5f0e8",
+            "#050505",
+            "#1a1a1a"
+        ],
+        "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+        ],
+        "bg": "linear-gradient(135deg,#1a1a00,#2a2a00)",
+        "letter": "S",
+        "rating": 4.4,
+        "reviews": 178,
+        "desc": "Classic boxy tee. 200gsm combed cotton. Minimalist branding. True to size.",
+        "stock": {
+            "XS": 25,
+            "S": 40,
+            "M": 50,
+            "L": 35,
+            "XL": 20,
+            "XXL": 15
+        }
+    },
+    {
+        "id": 9,
+        "name": "Abyss Coat",
+        "cat": "outerwear",
+        "badge": "limited",
+        "price": 620,
+        "orig": 780,
+        "colors": [
+            "#050505",
+            "#1a2d1a"
+        ],
+        "sizes": [
+            "S",
+            "M",
+            "L"
+        ],
+        "bg": "linear-gradient(135deg,#0a0014,#14002a)",
+        "letter": "A",
+        "rating": 5.0,
+        "reviews": 29,
+        "desc": "Long-form overcoat. Brushed cashmere-wool blend. Limited to 100 pieces worldwide.",
+        "stock": {
+            "S": 3,
+            "M": 5,
+            "L": 4
+        }
+    },
+    {
+        "id": 10,
+        "name": "Phase Shorts",
+        "cat": "bottoms",
+        "badge": null,
+        "price": 130,
+        "orig": null,
+        "colors": [
+            "#050505",
+            "#1a3a5c",
+            "#2d1a0a"
+        ],
+        "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL"
+        ],
+        "bg": "linear-gradient(135deg,#001a12,#002818)",
+        "letter": "P",
+        "rating": 4.6,
+        "reviews": 67,
+        "desc": "Relaxed fit. Lightweight nylon-cotton blend. Dual side pockets. Adjustable drawcord.",
+        "stock": {
+            "XS": 15,
+            "S": 20,
+            "M": 25,
+            "L": 18,
+            "XL": 10
+        }
+    },
+    {
+        "id": 11,
+        "name": "Volt Cap",
+        "cat": "accessories",
+        "badge": "new",
+        "price": 75,
+        "orig": null,
+        "colors": [
+            "#050505",
+            "#ff3c00",
+            "#f5f0e8"
+        ],
+        "sizes": [
+            "ONE SIZE"
+        ],
+        "bg": "linear-gradient(135deg,#1a0800,#2d1000)",
+        "letter": "V",
+        "rating": 4.7,
+        "reviews": 145,
+        "desc": "6-panel structured cap. Embroidered logo. Adjustable strap. Limited colourways.",
+        "stock": {
+            "ONE SIZE": 50
+        }
+    },
+    {
+        "id": 12,
+        "name": "Core Hoodie",
+        "cat": "hoodies",
+        "badge": null,
+        "price": 165,
+        "orig": 200,
+        "colors": [
+            "#050505",
+            "#1a1a1a",
+            "#f5f0e8"
+        ],
+        "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+        ],
+        "bg": "linear-gradient(135deg,#0d0d1a,#1a1a2d)",
+        "letter": "C",
+        "rating": 4.8,
+        "reviews": 312,
+        "desc": "Essential VOLT hoodie. 400gsm heavyweight fleece. Kangaroo pocket. Ribbed cuffs.",
+        "stock": {
+            "XS": 10,
+            "S": 15,
+            "M": 20,
+            "L": 15,
+            "XL": 8,
+            "XXL": 5
+        }
+    }
+]
