@@ -49,4 +49,4 @@ VOLT is a premium, high-end e-commerce experience designed for the intersection 
    Open `frontend/index.html` in your browser (using a Live Server is recommended).
 
 ---
-© 2026 VOLT Studio. Engineered for the edge..
+© 2026 VOLT Studio. Engineered for the edge.
